@@ -3,6 +3,7 @@ defmodule ML.PreProcess.CDiscount do
   Module for preprocessing the CDiscount dataset from the cdiscount kaggle
   competition.
   """
+  alias NimbleCSV.RFC4180, as: CSV
 
   @doc """
   Time the parsing of bson
@@ -16,21 +17,35 @@ defmodule ML.PreProcess.CDiscount do
   @doc """
   Asynchronously parse a large bson file
   """
-  def parse_bson(path \\ "../data/train.bson") do
-    path
+  def parse_bson(path \\ "../data") do
+    path <> "/train.bson"
     |> BSONEach.stream
-    |> Task.async_stream(&parse_document/1, max_concurrency: 8, ordered: false)
+    |> Task.async_stream(&parse_document/1, ordered: false, timeout: 30_000)
     |> Stream.run
   end
 
+  @doc """
+  Create directories for each category
+  """
+  def create_category_dirs(output_dir, path_to_cat_names \\ "../data/category_names.csv") do
+    path_to_cat_names
+    |> File.stream!
+    |> CSV.parse_stream
+    |> Stream.map(&List.first/1)
+    |> Stream.map(fn cat -> output_dir <> "/" <> cat end)
+    |> Enum.map(&File.mkdir_p!/1)
+  end
 
   @doc """
   Parse a single bson document and write the resulting img into the correct
   class directory
   """
-  def parse_document(%{"_id" => id, "category_id" => cat, "imgs" => imgs}) do
+  def parse_document(%{
+    "_id" => id,
+    "category_id" => cat,
+    "imgs" => imgs,
+  }) do
     path = "./output/#{cat}"
-    ML.FS.mkdir_p(path)
 
     imgs
     |> Stream.map(&Map.get(&1, "picture"))

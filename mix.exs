@@ -21,6 +21,7 @@ defmodule ML.Mixfile do
   defp deps do
     [
       {:bsoneach, "~> 0.4.1"},
+      {:nimble_csv, "~> 0.2.0"},
     ]
   end
 end

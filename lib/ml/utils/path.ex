@@ -23,12 +23,8 @@ defmodule ML.Utils.Path do
   end
 
   def handle_call({:mkdir_p, path}, _from, state) do
-    if !MapSet.member?(state, path) do
       File.mkdir_p!(path)
-      {:reply, :ok, MapSet.put(state, path)}
-    else
       {:reply, :ok, state}
-    end
   end
 
 end
