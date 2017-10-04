@@ -1,2 +1,2 @@
-%{"bsoneach": {:hex, :bsoneach, "0.4.1", "e92cc28da6e71a1e05c39e57d565c4b75ae6155e57f6c9ec52a0ce1146018c3e", [], [], "hexpm"},
-  "nimble_csv": {:hex, :nimble_csv, "0.2.0", "0da346c05b14eebef9563b3de72abb68adacec96d8588fb2c50c663ba5d2acc1", [], [], "hexpm"}}
+%{"bsoneach": {:hex, :bsoneach, "0.4.1", "e92cc28da6e71a1e05c39e57d565c4b75ae6155e57f6c9ec52a0ce1146018c3e", [:mix], []},
+  "nimble_csv": {:hex, :nimble_csv, "0.2.0", "0da346c05b14eebef9563b3de72abb68adacec96d8588fb2c50c663ba5d2acc1", [:mix], []}}

@@ -20,7 +20,7 @@ defmodule ML.PreProcess.CDiscount do
   def parse_bson(path \\ "../data") do
     path <> "/train.bson"
     |> BSONEach.stream
-    |> Task.async_stream(&parse_document/1, ordered: false, timeout: 30_000)
+    |> Task.async_stream(&parse_document(&1, path <> "/output"), ordered: false, timeout: 30_000)
     |> Stream.run
   end
 
@@ -44,8 +44,8 @@ defmodule ML.PreProcess.CDiscount do
     "_id" => id,
     "category_id" => cat,
     "imgs" => imgs,
-  }) do
-    path = "./output/#{cat}"
+  }, output_dir) do
+    path = "#{output_dir}/#{cat}"
 
     imgs
     |> Stream.map(&Map.get(&1, "picture"))
