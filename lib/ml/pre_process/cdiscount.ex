@@ -50,7 +50,7 @@ defmodule ML.PreProcess.CDiscount do
     imgs
     |> Stream.map(&Map.get(&1, "picture"))
     |> Stream.with_index
-    |> Enum.map(fn {i, %BSON.Types.Binary{binary: value}} ->
+    |> Enum.map(fn {%BSON.Types.Binary{binary: value}, i} ->
       File.write("#{path}/#{id}_#{i}.jpg", value)
     end)
   end
